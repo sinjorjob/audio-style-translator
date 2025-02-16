@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --header-bg: rgba(15, 23, 42, 0.95);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            
+            /* Speaker A colors - Ocean theme */
+            --accent-a: #38bdf8;
+            --accent-a-dark: #0284c7;
+            --accent-a-light: #7dd3fc;
+            --speaker-a-gradient: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(2, 132, 199, 0.15));
+            --speaker-a-border: rgba(56, 189, 248, 0.3);
+            
+            /* Speaker B colors - Violet theme */
+            --accent-b: #a855f7;
+            --accent-b-dark: #7e22ce;
+            --accent-b-light: #d8b4fe;
+            --speaker-b-gradient: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(126, 34, 206, 0.15));
+            --speaker-b-border: rgba(168, 85, 247, 0.3);
+            
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --card-border: 1px solid rgba(148, 163, 184, 0.1);
+            --glass-effect: blur(10px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            overflow: hidden;
+        }
+
+        .left-panel {
+            width: 30%;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .header {
+            background: var(--header-bg);
+            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: var(--glass-effect);
+            border: var(--card-border);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: var(--card-border);
+            backdrop-filter: var(--glass-effect);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .transcript-container {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: var(--card-border);
+            backdrop-filter: var(--glass-effect);
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .message {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .message:hover {
+            transform: translateY(-2px);
+        }
+
+        .message-a {
+            background: var(--speaker-a-gradient);
+            border: 1px solid var(--speaker-a-border);
+            margin-right: 2rem;
+        }
+
+        .message-b {
+            background: var(--speaker-b-gradient);
+            border: 1px solid var(--speaker-b-border);
+            margin-left: 2rem;
+        }
+
+        .speaker {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .speaker-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .speaker-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .speaker-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .message-a .speaker-name {
+            color: var(--accent-a);
+        }
+
+        .message-b .speaker-name {
+            color: var(--accent-b);
+        }
+
+        .speaker-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-a .speaker-icon {
+            background: linear-gradient(135deg, var(--accent-a), var(--accent-a-dark));
+            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+        }
+
+        .message-b .speaker-icon {
+            background: linear-gradient(135deg, var(--accent-b), var(--accent-b-dark));
+            box-shadow: 0 2px 10px rgba(168, 85, 247, 0.3);
+        }
+
+        .content {
+            line-height: 1.8;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .message-a .content::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-a-light), transparent);
+        }
+
+        .message-b .content::before {
+            content: '';
+            position: absolute;
+            right: -1.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-b-light), transparent);
+        }
+
+        /* Fancy scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-a), var(--accent-b));
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--accent-b), var(--accent-a));
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .left-panel {
+                width: 100%;
+                min-width: auto;
+            }
+            .message-a, .message-b {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <header class="header">
+                <div class="header-content">
+                    <h1 class="header-title">
+                        <span class="header-emoji">📈</span>
+                        関税政策深掘りセッション
+                    </h1>
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-podcast stat-icon"></i>
+                    <div class="stat-title">
+                        <i class="fas fa-broadcast-tower"></i>
+                        政策分析ニュース
+                    </div>
+                    <div class="stat-value">🎧 政策洞察ポッドキャスト</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-title">
+                        <i class="fas fa-user-tie"></i>
+                        出演者
+                    </div>
+                    <div class="stat-value">👥 話者A(政策アナリスト) & 話者B(経済評論家)</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-line stat-icon"></i>
+                    <div class="stat-title">
+                        <i class="fas fa-bullseye"></i>
+                        主要トピック
+                    </div>
+                    <div class="stat-value">🇺🇸 新たな関税政策の影響分析</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transcript-container">
+            <div id="transcript"></div>
+        </div>
+    </div>
+
+    <script>
+        const transcript = [
+        {
+            speaker: 'A',
+            content: '皆様、お帰りなさい。本日は関税について深掘りしていきます。特に、2025年1月に発効予定のトランプ政権による新たな関税について詳しく分析します。'
+        },
+        {
+            speaker: 'B',
+            content: 'はい、具体的には現在の状況やその影響、そして今後のグローバル貿易への示唆について取り上げます。'
+        },
+        {
+            speaker: 'A',
+            content: 'この関税は、前回のトランプ政権下や最近の歴史と比べて、かなりのエスカレーションを示しています。'
+        },
+        {
+            speaker: 'B',
+            content: '確かに、主要な三つの施策がこの全体のパズルを構成しています。'
+        },
+        {
+            speaker: 'A',
+            content: '第一の施策は、中国製品に対する追加の10%関税です。具体的には半導体や電気自動車の部品など、非常にターゲットを絞ったものです。'
+        },
+        {
+            speaker: 'B',
+            content: 'これは中国の重要な技術セクターの成長を抑制する戦略的な措置と見られています。'
+        },
+        {
+            speaker: 'A',
+            content: '第二の施策は、カナダとメキシコからの製品に対する25%の関税です。対象は自動車部品や農産物などです。'
+        },
+        {
+            speaker: 'B',
+            content: '公式な理由は移民問題や麻薬取引の懸念ですが、USMCA(新北米自由貿易協定)内での関係が緊張しています。'
+        },
+        {
+            speaker: 'A',
+            content: '第三の施策としては、相互関税制度の導入が検討されています。これは他国が米国製品に関税を課した場合、米国も同等の関税を課すというものです。'
+        },
+        {
+            speaker: 'B',
+            content: 'これは報復措置として、貿易戦争を一層激化させる可能性があります。'
+        },
+        {
+            speaker: 'A',
+            content: '世界各国の反応として、EUは鉄鋼やアルミニウムに対する関税に対して世界貿易機関(WTO)に苦情を申し立てることを検討しています。'
+        },
+        {
+            speaker: 'B',
+            content: '一方、米国内では輸入部品に依存する企業の生産コストが平均12%増加しており、これが消費者価格にも影響を与えています。'
+        },
+        {
+            speaker: 'A',
+            content: '農業分野では、大豆農家が特に大きな打撃を受けており、中国市場への輸出が昨年比75%減少しています。'
+        },
+        {
+            speaker: 'B',
+            content: 'このような状況下で、カナダとメキシコとの交渉が3月に予定されており、移民問題の解決と関税緩和が目指されています。'
+        },
+        {
+            speaker: 'A',
+            content: '中国との交渉は4月に第二段階が予定されており、知的財産の保護やサイバーセキュリティに焦点を当てる予定です。'
+        },
+        {
+            speaker: 'B',
+            content: 'また、6月にはG7サミットが開催され、貿易戦争の制御を目的とした共同声明の策定が期待されています。'
+        },
+        {
+            speaker: 'A',
+            content: '長期的な影響として、グローバルなサプライチェーンの重大なシフトが予想され、企業はアジアからメキシコへの生産移転を検討する可能性があります。'
+        },
+        {
+            speaker: 'B',
+            content: 'さらに、米国はインドや東南アジア諸国との新たな自由貿易協定を模索する動きも見られます。'
+        },
+        {
+            speaker: 'A',
+            content: '政治的側面では、農業州の共和党議員が関税緩和を求める圧力を受けており、国会内で興味深い動態が生じる可能性があります。'
+        },
+        {
+            speaker: 'B',
+            content: 'これらの関税政策が短期的な痛みを伴うものの、長期的な利益につながるとの見方もありますが、その実現には時間がかかるでしょう。'
+        },
+        {
+            speaker: 'A',
+            content: '最後に、これらの関税が一時的な戦術なのか、長期的な戦略の一部なのかが今後の焦点となります。'
+        },
+        {
+            speaker: 'B',
+            content: 'この動きがどのように展開していくか、今後も注視が必要です。'
+        },
+        {
+            speaker: 'A',
+            content: '本日の深掘りレポートは以上です。ご視聴ありがとうございました。また次回お会いしましょう。'
+        }
+    ];
+
+        function renderTranscript() {
+            const transcriptElement = document.getElementById('transcript');
+            transcriptElement.innerHTML = transcript.map((message, index) => `
+                <div class="message message-${message.speaker.toLowerCase()}" style="animation-delay: ${index * 0.1}s">
+                    <div class="speaker">
+                        <div class="speaker-icon">
+                            ${message.speaker === 'A' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>'}
+                        </div>
+                        <div class="speaker-info">
+                            <div class="speaker-name">話者${message.speaker}</div>
+                            <div class="speaker-role">${message.speaker === 'A' ? '政策アナリスト' : '経済評論家'}</div>
+                        </div>
+                    </div>
+                    <div class="content">${message.content}</div>
+                </div>
+            `).join('');
+        }
+
+        renderTranscript();
+    </script>
+</body>
+</html>
