@@ -40,7 +40,7 @@ pip install -r requirements.txt
 
 1. 基本的な使用方法：
 ```bash
-python audio_style_converter.py input.mp3
+python audio_style_converter.py input.wav
 ```
 
 2. 出力ファイル：
